@@ -33,7 +33,7 @@ class Post(models.Model):
                               choices=Status.choices,
                               default=Status.DRAFT)
     objects = models.Manager()  # Использование менежера по умолчанию
-    publish = PublishedManager()  # Использование своего менеджера
+    published = PublishedManager()  # Использование своего менеджера
 
     class Meta:
         ordering = ['-publish']  # Сортировка записей в обратном порядке
