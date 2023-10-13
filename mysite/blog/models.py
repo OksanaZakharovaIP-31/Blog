@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
-class PublishManager(models.Manager):
+class PublishedManager(models.Manager):
     """Создание своего менеджера"""
     def get_queryset(self):
         return super().get_queryset().filter(status=Post.Status.PUBLISHED)
@@ -33,7 +33,7 @@ class Post(models.Model):
                               choices=Status.choices,
                               default=Status.DRAFT)
     objects = models.Manager()  # Использование менежера по умолчанию
-    publish = PublishManager()  # Использование своего менеджера
+    publish = PublishedManager()  # Использование своего менеджера
 
     class Meta:
         ordering = ['-publish']  # Сортировка записей в обратном порядке
