@@ -19,6 +19,7 @@ from django.views.generic import ListView
 #     template_name = 'blog/post/list.html'  # Страница для отображения
 
 def post_search(request):
+    """Searching"""
     form = SearchForm()
     query = None
     results = []
@@ -43,6 +44,7 @@ def post_search(request):
 
 @require_POST
 def post_comment(request, post_id):
+    """Post post"""
     post = get_object_or_404(Post,
                              id=post_id,
                              status=Post.Status.PUBLISHED)
@@ -59,6 +61,7 @@ def post_comment(request, post_id):
 
 
 def post_list(request, tag_slug=None):
+    """All posts"""
     posts_list = Post.published.all()
     tag = None
     if tag_slug:
@@ -78,6 +81,7 @@ def post_list(request, tag_slug=None):
 
 
 def post_detail(request, year, month, day, post):
+    """Detail of post and add comment"""
     post = get_object_or_404(Post,
                              slug=post,
                              publish__year=year,
