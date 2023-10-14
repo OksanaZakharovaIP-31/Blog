@@ -3,6 +3,7 @@ from .models import Post, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CommentForm
 from django.views.decorators.http import require_POST
+from taggit.models import Tag
 from django.views.generic import ListView
 
 
@@ -33,8 +34,12 @@ def post_comment(request, post_id):
                    'comment': comment})
 
 
-def post_list(request):
+def post_list(request, tag_slug=None):
     posts_list = Post.published.all()
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        posts_list = posts_list.filter(tags__in=[tag])
     paginator = Paginator(posts_list, 5)
     page_num = request.GET.get('page', 1)
     try:
@@ -44,7 +49,8 @@ def post_list(request):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
     return render(request, 'blog/post/list.html',
-                  {'posts': posts})
+                  {'posts': posts,
+                   'tag': tag})
 
 
 def post_detail(request, year, month, day, post):
