@@ -49,6 +49,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
+        """Create absolute url"""
         return reverse('blog:post_detail',
                        args=[self.publish.year,
                              self.publish.month,
@@ -57,6 +58,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    """Comment table"""
     post = models.ForeignKey(Post,
                              on_delete=models.CASCADE,
                              related_name='comments')
